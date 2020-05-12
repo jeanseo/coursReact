@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+    const container = document.getElementById('root');
+
+    const BaseNumberInput = (props) => {
+        const {value, setValue} = props;
+        const handleChange = (event) => {
+            const {name, value} = event.target;
+            setValue(value);
+        };
+
+        return(
+            <div className="form-group">
+                <label htmlFor={props.label}>{props.label}</label>
+                <input type="number" id={props.label} name="value" value={value} onChange={handleChange} />
+            </div>
+        )
+    };
+
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                decimal: '',
+                binary: ''
+            };
+
+
+        }
+
+        render() {
+            const setDecimal = (newValue) =>{
+                const binary = parseInt(newValue,10);
+                this.setState({
+                    decimal: newValue,
+                    binary: binary.toString(2)
+                });
+
+            };
+
+            const setBinary = (newValue) =>{
+                const decimal = parseInt(newValue,2);
+                this.setState({
+                    decimal: decimal,
+                    binary: newValue
+                });
+
+            };
+
+            const {value} = this.state;
+            return (
+                <React.Fragment>
+                    <form>
+                        <BaseNumberInput value = {this.state.decimal} setValue = {setDecimal} label = {'Number: decimal'}/>
+                        <BaseNumberInput value = {this.state.binary} setValue = {setBinary} label = {'Number: binary'}/>
+                    </form>
+                </React.Fragment>
+            );
+        }
+    }
+
+
+
+    // Rendu dans le DOM de deux components hiérarchiques
+    ReactDOM.render(
+        <App/>,
+// Node root permettant de placer le Component dans le DOM
+        container
+    );
+</script>
+</body>
+</html>

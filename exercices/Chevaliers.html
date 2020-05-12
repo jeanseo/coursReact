@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+    const Dragons = () => {
+        return(<ul>
+            <li>Apalala</li>
+            <li>Balaur</li>
+            <li>Bolla</li>
+            <li>Nessie</li>
+        </ul>)
+    };
+
+    const Chevaliers = () => {
+        return(<ul>
+            <li>Lancelot</li>
+            <li>Bohort</li>
+            <li>Dagonet</li>
+            <li>Gauvain</li>
+        </ul>)
+    };
+
+
+    const App = ({display}) =>{
+        if(display == 'chevaliers'){
+            return (<Chevaliers/>)
+        }
+        else if (display=='dragons'){
+            return (<Dragons/>)
+        }
+    };
+
+    // Rendu dans le DOM de deux components hiérarchiques
+    ReactDOM.render(
+        <App display = 'dragons'/>,
+// Node root permettant de placer le Component dans le DOM
+        document.getElementById('root')
+    );
+</script>
+</body>
+</html>

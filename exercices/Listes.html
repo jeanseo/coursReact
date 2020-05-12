@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+    const container = document.getElementById('root');
+
+    const generateHash = () => Math.random().toString(16);
+    const generateKey = () => Math.random() + ""
+
+
+    class App extends React.Component{
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                elems : [
+                    {
+                        key : generateKey() ,
+                        hash : generateHash()
+                    }
+                ]
+            };
+        }
+
+
+
+        addHash = () => {
+            this.setState(previousState => ({
+                elems: [...previousState.elems, {
+                    key : generateKey() ,
+                    hash : generateHash()
+                }]
+            }));
+        };
+
+        deleteHash = (index) => {
+            console.log(index);
+            let newArray = this.state.elems;
+            newArray.splice(index,1);
+            this.setState(
+                {elems: newArray}
+            );
+        };
+
+        render(){
+
+            return(
+                <div>
+                    <ul>
+                        {
+                            this.state.elems.map((elem, index) =>    <li key={index}><Elem elem = {elem} index = {index} />
+                            <button onClick={() => {this.deleteHash({index})}}>delete</button></li>  )
+                        }
+                    </ul>
+                    <button onClick={() => {this.addHash()}}>Generate</button>
+                </div>
+            )
+        }
+
+
+    }
+
+
+    const Elem = (props) => {
+
+        return (
+            <React.Fragment>
+                {props.index} - {props.elem.key}  {props.elem.hash}
+            </React.Fragment>
+        )
+
+
+    };
+
+    // Rendu dans le DOM de deux components hiérarchiques
+    ReactDOM.render(
+        <App/>,
+// Node root permettant de placer le Component dans le DOM
+        container
+    );
+</script>
+</body>
+</html>

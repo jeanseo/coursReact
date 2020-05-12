@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+    const container = document.getElementById('root');
+
+    class Counter extends React.Component {
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                count: 0,
+                running: false
+            };
+
+            this.counter = null;
+        }
+
+        componentDidMount() {
+
+        }
+        start = () => {
+            clearInterval(this.counter);
+            this.counter = setInterval(() => {
+                // Le setState permet de relancer le render si la valeur change
+
+                this.setState((prevState) => ({count: prevState.count + this.props.incrementation}));
+            }, 1000);
+            this.setState({running: true})
+        };
+
+        stop = () =>{
+            clearInterval(this.counter);
+            this.setState({running: false});
+
+        };
+
+        reset = () => {
+            this.setState({count: 0})
+
+        };
+
+
+        componentWillUnmount() {
+            console.log('componentWillUnmount ...');
+        }
+
+        render(){
+            return(
+                <div >
+                    <button className="btn btn-primary app_btn" disabled={this.state.running} onClick={()=>{this.start()}}>Start</button>
+                    <button className="btn btn-warning app_btn" disabled={!this.state.running} onClick={()=>{this.stop()}}>Stop</button>
+                    {this.state.count > 0 &&
+                    <button className="btn btn-secondary app_btn" onClick={() => {this.reset()}}>Reset</button>
+                    }
+                    <p className="app_center">{this.state.count}</p>
+                </div>
+            )
+        }
+
+    }
+
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+
+            this.state = {
+
+            };
+        }
+
+        componentDidMount() {
+
+        }
+
+        render(){
+            return(
+                <React.Fragment>
+                    <Counter incrementation={1}/>
+                    <Counter incrementation={2}/>
+                </React.Fragment>
+
+            )
+        }
+
+    }
+
+
+
+    ReactDOM.render(
+        <App/>,
+// Node root permettant de placer le Component dans le DOM
+        container
+    );
+</script>
+</body>
+</html>
